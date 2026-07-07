@@ -20,8 +20,6 @@ config/master.key
 # config/secrets.yml
 
 # dotenv
-.env
-.env.*
 !.env.example
 
 ## Environment normalization:
@@ -64,3 +62,4 @@ Generated Image*.png
 
 # Claude Code local session state
 .claude/
+config.bat
