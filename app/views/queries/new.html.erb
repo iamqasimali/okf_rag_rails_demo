@@ -1,0 +1,26 @@
+<main class="chat-shell">
+  <section class="composer-panel">
+    <header class="app-header">
+      <p class="eyebrow">Flowbase Hybrid Knowledge Demo</p>
+      <h1>Support knowledge agent</h1>
+    </header>
+
+    <%= form_with url: queries_path, method: :post, class: "query-form" do |form| %>
+      <%= form.text_area :query, value: @question, rows: 5, placeholder: "Ask about refunds, plans, retention, escalations, or messy support history..." %>
+      <div class="form-actions">
+        <%= form.submit "Ask agent" %>
+        <span class="busy-copy">Routing and grounding the answer...</span>
+      </div>
+    <% end %>
+
+    <div class="examples" aria-label="Example questions">
+      <% @examples.each do |example| %>
+        <%= button_to example, queries_path, method: :post, params: { query: example }, class: "example-button" %>
+      <% end %>
+    </div>
+  </section>
+
+  <%= turbo_frame_tag "chat_result", class: "result-frame" do %>
+    <%= render "result", result: @result, alert: flash[:alert], configuration_error: @configuration_error %>
+  <% end %>
+</main>

@@ -1,0 +1,54 @@
+<% if alert.present? %>
+  <section class="result-panel notice-panel">
+    <p class="alert"><%= alert %></p>
+  </section>
+<% elsif configuration_error.present? %>
+  <section class="result-panel notice-panel">
+    <p class="alert">
+      <%= configuration_error %>. Add credentials to <code>.env</code> using <code>.env.example</code>.
+    </p>
+  </section>
+<% elsif result.present? %>
+  <section class="result-panel">
+    <div class="result-heading">
+      <div>
+        <p class="eyebrow">Question</p>
+        <h2><%= result[:question] %></h2>
+      </div>
+      <span class="badge <%= result[:source] %>">
+        <%= result[:source] == :okf ? "OKF - Curated" : "RAG - Retrieved" %>
+      </span>
+    </div>
+
+    <article class="answer">
+      <%= simple_format(result[:answer]) %>
+    </article>
+
+    <div class="sources">
+      <h3>Sources</h3>
+      <p class="route-reason"><%= result[:route_reason] %></p>
+      <% result[:sources].each do |source| %>
+        <div class="source-row">
+          <% if result[:source] == :okf %>
+            <strong><%= source[:title] %></strong>
+            <span><%= source[:resource] %></span>
+          <% else %>
+            <strong><%= source[:source] %></strong>
+            <span>KnowledgeChunk #<%= source[:id] %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <details class="context">
+      <summary>Show model context</summary>
+      <pre><%= result[:context] %></pre>
+    </details>
+  </section>
+<% else %>
+  <section class="result-panel empty-panel">
+    <p class="eyebrow">Ready</p>
+    <h2>Ask a question to see the grounded response here.</h2>
+    <p>Canonical questions return curated OKF policy sources. Troubleshooting questions retrieve support-history chunks.</p>
+  </section>
+<% end %>
