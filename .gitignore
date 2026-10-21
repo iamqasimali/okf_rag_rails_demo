@@ -62,4 +62,3 @@ Generated Image*.png
 
 # Claude Code local session state
 .claude/
-config.bat
